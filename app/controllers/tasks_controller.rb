@@ -16,7 +16,7 @@ class TasksController < ApplicationController
     # task = Task.new(params[:task])
     task = Task.new(task_params)
     task.save
-    redirect_to tasks_path
+    redirect_to task_path(task)
   end
 
   private
