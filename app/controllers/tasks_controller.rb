@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
   def show
     # this will find a task refering to the unique id
-    @task = Task.find(params[:id])
+    @task = find_index
   end
 
   def new
@@ -14,24 +14,22 @@ class TasksController < ApplicationController
 
   def create
     # task = Task.new(params[:task])
-    @task = Task.new(task_params)
-    @task.save
-    redirect_to task_path(@task)
+    task = Task.new(task_params)
+    task.save
+    redirect_to task_path(task)
   end
 
   def edit
-    @task = Task.find(params[:id])
+    @task = find_index
   end
 
   def update
-    @task = Task.find(params[:id])
-    @task.update(task_params)
-    redirect_to task_path(@task)
+    find_index.update(task_params)
+    redirect_to task_path(find_index)
   end
 
   def destroy
-    @task = Task.find(params[:id])
-    @task.destroy
+    find_index.destroy
     redirect_to tasks_path, status: :see_other
   end
 
@@ -39,5 +37,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :details)
+  end
+
+  def find_index
+    Task.find(params[:id])
   end
 end
